@@ -24,8 +24,13 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
-    public ArchiveEntity getbyTerminal(String Terminal, String Dates) {
-        return archiveRepo.findByTerminalIDNative(Terminal, Dates);
+    public List<ArchiveEntity> getbyTerminal(String terminal, String dates) {
+        return (List<ArchiveEntity>) archiveRepo.findByTerminalAndDatesNative(terminal, dates);
+    }
+
+    @Override
+    public List<ArchiveEntity> getbyTerminalAndDates(String terminal, String dates, String datess) {
+        return (List<ArchiveEntity>) archiveRepo.findByTerminalsAndDatesAndDatesNative(terminal, dates, datess);
     }
 
 

@@ -31,9 +31,18 @@ public class ArchiveController {
 
 
     @GetMapping("/find/{terminal}/{dates}")
-    public ArchiveEntity findbyTerminal(@PathVariable("terminal") String Terminal, @PathVariable("dates") String Dates) {
+    public List<ArchiveEntity> findbyTerminal(@PathVariable("terminal") String terminal, @PathVariable("dates") String dates) {
 
-        return archiveService.getbyTerminal(Terminal, Dates);
+        return archiveService.getbyTerminal(terminal, dates);
+
+    }
+
+    @GetMapping("/search/{terminal}/{dates}/{datess}")
+    public List<ArchiveEntity> findbyDates(@PathVariable("terminal") String terminal,
+                                     @PathVariable("dates") String dates,
+                                     @PathVariable("datess") String datess) {
+
+        return archiveService.getbyTerminalAndDates(terminal, dates, datess);
 
     }
 
