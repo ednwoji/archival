@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/dashboard.css">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
+    <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
+    <link href="/css/FontAwesome/css/font-awesome.css" rel="stylesheet">
+
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+<!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>-->
+
+    <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
 </head>
 
 <body>
@@ -20,12 +31,12 @@
         </header>
         <ul class="nav">
             <li>
-                <a href="#">
+                <a th:href="@{/dashboard}">
                     <i class="zmdi zmdi-view-dashboard"></i> Dashboard
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a th:href="@{/journals}">
                     <i class="zmdi zmdi-link"></i> Request For Journals
                 </a>
             </li>
@@ -40,7 +51,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a th:href="@{/logout}">
                     <i class="zmdi zmdi-info-outline"></i> Logoff
                 </a>
             </li>
@@ -56,16 +67,20 @@
                         <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
                         </a>
                     </li>
-                    <li><a href="#">Test User</a></li>
+                    <b th:text="${name}"/>
+
                 </ul>
             </div>
         </nav>
         <div class="container-fluid">
-            <h1>Simple Sidebar</h1>
+            <h1 th:text="'Welcome, ' + ${session.userName}"/>
             <p>
                 Make sure to keep all page content within the
                 <code>#content</code>.
             </p>
+            <div class="box">
+                Total Number of ATMs with Access
+            </div>
         </div>
     </div>
 </div>
