@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Journals</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="viewport">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <header>
+      <a href="#">Archival Application</a>
+    </header>
+    <ul class="nav">
+      <li>
+        <a th:href="@{/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/journals}">
+          <i class="zmdi zmdi-link"></i> Request For Journals
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/footages}">
+          <i class="zmdi zmdi-widgets"></i> Request For Footages
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-calendar"></i> Footages From June 1st
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+  </div>
+  <!-- Content -->
+  <div id="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
+            </a>
+          </li>
+          <b th:text="${name}"/>
+
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <h1 th:text="'Welcome, ' + ${session.userName}"/>
+      <p>
+
+        <form>
+
+        <label for="date">Enter a date for Journal Extraction :</label><br>
+        <input type="date" id="date" name="endDate">
+        <input type="date" id = "date" name="endDate"> <br><br><br>
+
+        <input type="text" id="terminal" name="terminal" placeholder="Enter Terminal ID">
+
+      <input type="button">
+
+    </form>
+      </p>
+
+    </div>
+  </div>
+</div>
+
+</body>
+
+
+</html>

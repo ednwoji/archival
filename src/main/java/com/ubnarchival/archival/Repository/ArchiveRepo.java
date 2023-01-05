@@ -2,6 +2,7 @@ package com.ubnarchival.archival.Repository;
 
 
 import com.ubnarchival.archival.Entity.ArchiveEntity;
+import com.ubnarchival.archival.Entity.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ArchiveRepo extends JpaRepository<ArchiveEntity, Long> {
+
 
 
 
