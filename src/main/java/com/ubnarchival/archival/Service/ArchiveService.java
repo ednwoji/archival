@@ -15,4 +15,6 @@ public interface ArchiveService {
     List<ArchiveEntity> getbyTerminalAndDates(String terminal, String dates, String datess);
 
     List<ArchiveEntity> fetchJournals(String startDate, String endDate, String terminal);
+
+    List<ArchiveEntity> fetchAll();
 }

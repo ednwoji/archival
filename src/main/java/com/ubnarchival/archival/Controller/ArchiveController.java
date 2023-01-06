@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,12 +62,11 @@ public class ArchiveController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/json;charset=UTF-8;");
 
-        System.out.println(startDate);
-        System.out.println(endDate);
-
-        List<ArchiveEntity> journals = archiveService.fetchJournals(startDate, endDate, terminal);
+        List<ArchiveEntity> journals = (List<ArchiveEntity>)archiveService.fetchJournals(startDate, endDate, terminal);
         System.out.println(journals);
-        redirectAttributes.addAttribute("journalFiles", journals);
+
+        redirectAttributes.addAttribute("journals", journals);
+//        model.addAttribute("journals", journals);
 
         return "redirect:/journals";
 

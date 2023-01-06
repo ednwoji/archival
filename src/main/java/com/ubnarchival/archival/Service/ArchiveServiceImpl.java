@@ -38,5 +38,10 @@ public class ArchiveServiceImpl implements ArchiveService {
         return archiveRepo.fetchJournalsByDates(terminal, startDate,endDate);
     }
 
+    @Override
+    public List<ArchiveEntity> fetchAll() {
+        return archiveRepo.findAll();
+    }
+
 
 }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Journals</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="webjars/jquery/3.2.0/jquery.min.js"></script>
+
+</head>
+
+<style>
+  form {
+   width: 700px;
+    margin: 0 auto;
+<!--    text-align: center;-->
+  }
+  label {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  input[type="text"] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+    input[type="date"] {
+    width: 23%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+</style>
+
+<body>
+
+
+<div id="viewport">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <header>
+            <a href="#">Archival Application</a>
+        </header>
+        <ul class="nav">
+            <li>
+                <a th:href="@{/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li class="active">
+                <a th:href="@{/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="zmdi zmdi-calendar"></i> Footages From June 1st
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- Content -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <h1 th:text="'Hi, ' + ${session.userName}"/>
+            </div>
+        </nav>
+
+
+    </div>
+</div>
+
+
+<div class="container">
+
+    <form class="well form-horizontal" action="#" th:action="@{/fetch/getjournals}" th:object="${archiveEntity}" method="post"  id="contact_form">
+
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Fill below details</legend>
+
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Terminal ID</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input placeholder="Terminal ID" th:field="*{terminal}" class="form-control"  type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label">Date Range</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                        <input placeholder="Start Date" value="Start Date" class="form-control" th:field="*{startDate}" type="date" required>
+                        <input placeholder="End Date" class="form-control" th:field="*{endDate}" type="date" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4 inputGroupContainer">
+                    <button id="submit-form" class="btn btn-md submit-form">Click to Search</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+
+</body>
+
+
+</html>

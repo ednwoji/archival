@@ -71,9 +71,47 @@
             <div class="box">
                 Terminals with access
             </div>
+
+            <br>
+            <div class="container">
+                <table class="table table-bordered table-striped">
+
+                    <thead>
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Terminal ID</th>
+                        <th>Date</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <!--          <tr th:each="item : ${journals}">-->
+                    <tr th:each="item : ${journals}">
+                        <!--            <td>-->
+                        <!--              <div class="btn btn-group-sm" role="group">-->
+                        <!--                <a class="btn btn-info" href="#">Download</a>-->
+                        <!--              </div>-->
+                        <!--            </td>-->
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.terminal}"></td>
+                        <td th:text="${item.startDate}"></td>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    </thead>
+
+                </table>
+
+            </div>
+
         </div>
     </div>
 </div>
+
+
+
 </body>
 
 </html>
