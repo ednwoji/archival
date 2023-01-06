@@ -26,5 +26,8 @@ public class ArchiveEntity {
     private String terminal;
 
     @Column(name = "Date_Added")
-    private String dates;
+    private String startDate;
+
+    @Transient
+    private String endDate;
 }

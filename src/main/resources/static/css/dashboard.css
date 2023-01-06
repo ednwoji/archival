@@ -89,3 +89,15 @@ body {
    box-shadow: 0px 0px 10px #CCCCCC;
    transition: all 0.3s ease;
 }
+
+.submit-form{
+background-color: Green;
+border: 1px solid #543800;
+}
+
+
+#sidebar .active {
+  background-color: Green;
+  border: 1px solid #543800;
+
+}

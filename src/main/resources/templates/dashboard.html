@@ -30,7 +30,7 @@
             <a href="#">Archival Application</a>
         </header>
         <ul class="nav">
-            <li>
+            <li class="active">
                 <a th:href="@{/dashboard}">
                     <i class="zmdi zmdi-view-dashboard"></i> Dashboard
                 </a>
@@ -62,22 +62,12 @@
     <div id="content">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-                        </a>
-                    </li>
-                    <b th:text="${name}"/>
-
-                </ul>
+                <h1 th:text="'Welcome, ' + ${session.userName}"/>
             </div>
         </nav>
         <div class="container-fluid">
-            <h1 th:text="'Welcome, ' + ${session.userName}"/>
-            <p>
                 Make sure to keep all page content within the
                 <code>#content</code>.
-            </p>
             <div class="box">
                 Terminals with access
             </div>

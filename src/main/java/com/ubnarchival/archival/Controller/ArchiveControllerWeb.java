@@ -2,6 +2,7 @@ package com.ubnarchival.archival.Controller;
 
 
 import ch.qos.logback.classic.pattern.SyslogStartConverter;
+import com.ubnarchival.archival.Entity.ArchiveEntity;
 import com.ubnarchival.archival.Entity.Login;
 import com.ubnarchival.archival.Helpers.Token;
 import com.ubnarchival.archival.Repository.ArchiveRepo;
@@ -45,7 +46,7 @@ public class ArchiveControllerWeb {
     }
 
     @GetMapping("/journals")
-    public ModelAndView GetJournals() {
+    public ModelAndView GetJournals(ArchiveEntity archiveEntity) {
 
         ModelAndView modelAndView = new ModelAndView("journal");
         return modelAndView;

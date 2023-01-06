@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Journals</title>
   <link rel="stylesheet" href="/css/dashboard.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -13,7 +15,38 @@
 
 </head>
 
+<style>
+  form {
+   width: 700px;
+    margin: 0 auto;
+<!--    text-align: center;-->
+  }
+  label {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  input[type="text"] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+    input[type="date"] {
+    width: 23%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+</style>
+
 <body>
+
 
 <div id="viewport">
   <!-- Sidebar -->
@@ -27,7 +60,7 @@
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li>
+      <li class="active">
         <a th:href="@{/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
@@ -54,36 +87,68 @@
   <div id="content">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-            </a>
-          </li>
-          <b th:text="${name}"/>
-
-        </ul>
+              <h1 th:text="'Hi, ' + ${session.userName}"/>
       </div>
     </nav>
     <div class="container-fluid">
-      <h1 th:text="'Welcome, ' + ${session.userName}"/>
-      <p>
+      <form action="#" th:action="@{/fetch/getjournals}" th:object="${archiveEntity}" method="POST">
+      <div class="form-group mb-2">
+        <label for="start-date">Start date:</label>
+        <input type="date" id="start-date" th:field="*{startDate}">
 
-        <form>
+        <label for="end-date">End date:</label>
+        <input type="date" id="end-date" th:field="*{endDate}">
+      </div>
 
-        <label for="date">Enter a date for Journal Extraction :</label><br>
-        <input type="date" id="date" name="endDate">
-        <input type="date" id = "date" name="endDate"> <br><br><br>
+        <div class="form-group">
+          <label for="terminal">Enter Terminal ID</label>
+        <input type="text" id="terminal" th:field="*{terminal}" placeholder="Enter Terminal ID" required>
+        </div>
 
-        <input type="text" id="terminal" name="terminal" placeholder="Enter Terminal ID">
-
-      <input type="button">
+        <div class="form-group my-2">
+          <button id="submit-form" class="btn btn-md submit-form">Click to Search</button>
+        </div>
 
     </form>
-      </p>
 
     </div>
   </div>
 </div>
+
+<div th:if="${journalFiles != null}">
+  <div>
+    <table class="table table-bordered table-striped">
+
+      <thead>
+
+      <tr>
+        <th>Name</th>
+        <th>Terminal ID</th>
+        <th>Date</th>
+        <th>Option</th>
+      </tr>
+
+      </thead>
+      <tbody>
+      <tr th:each="item : ${journalFiles}">
+      <td>
+        <div class="btn btn-group-sm" role="group">
+          <a class="btn btn-info" href="#">Download</a>
+        </div>
+      </td>
+      <td th:text="${item.name}"></td>
+      <td th:text="${item.terminal}"></td>
+      <td th:text="${item.startDate}"></td>
+      </tr>
+      </tbody>
+
+      </thead>
+
+    </table>
+
+  </div>
+</div>
+
 
 </body>
 

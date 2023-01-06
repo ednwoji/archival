@@ -33,5 +33,10 @@ public class ArchiveServiceImpl implements ArchiveService {
         return (List<ArchiveEntity>) archiveRepo.findByTerminalsAndDatesAndDatesNative(terminal, dates, datess);
     }
 
+    @Override
+    public List<ArchiveEntity> fetchJournals(String startDate, String endDate, String terminal) {
+        return archiveRepo.fetchJournalsByDates(terminal, startDate,endDate);
+    }
+
 
 }

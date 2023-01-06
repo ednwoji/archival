@@ -23,6 +23,9 @@ public interface ArchiveRepo extends JpaRepository<ArchiveEntity, Long> {
     @Query(value = "SELECT * FROM files WHERE Terminal_ID = :terminal AND Date_Added BETWEEN :dates AND :datess" , nativeQuery = true)
     List<ArchiveEntity> findByTerminalsAndDatesAndDatesNative(@Param("terminal") String terminal, @Param("dates") String dates, @Param("datess") String date);
 
+    @Query(value = "SELECT * FROM files WHERE Terminal_ID = :terminal AND Date_Added BETWEEN :dates AND :datess" , nativeQuery = true)
+    List<ArchiveEntity> fetchJournalsByDates(@Param("terminal") String terminal, @Param("dates") String startDate, @Param("datess") String endDate);
+
 
 
 }
