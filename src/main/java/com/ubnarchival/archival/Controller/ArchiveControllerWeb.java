@@ -1,30 +1,32 @@
 package com.ubnarchival.archival.Controller;
 
 
-import ch.qos.logback.classic.pattern.SyslogStartConverter;
 import com.ubnarchival.archival.Entity.ArchiveEntity;
+import com.ubnarchival.archival.Entity.upload;
 import com.ubnarchival.archival.Entity.Login;
 import com.ubnarchival.archival.Helpers.Token;
-import com.ubnarchival.archival.Repository.ArchiveRepo;
 import com.ubnarchival.archival.Repository.LoginRepo;
 import com.ubnarchival.archival.Service.ArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/archive")
 public class ArchiveControllerWeb {
 
 
@@ -66,12 +68,24 @@ public class ArchiveControllerWeb {
     }
 
     @GetMapping("/footages")
-    public ModelAndView GetFootages() {
+    public String GetFootages(ArchiveEntity archiveEntity, Model model) {
 
-        ModelAndView modelAndView = new ModelAndView("footage");
-        return modelAndView;
+        return "footage";
+    }
+
+    @GetMapping("/addition")
+    public String createATM(upload atmParam, Model model) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<upload>> response = restTemplate.exchange("http://localhost:9090/getAll", HttpMethod.GET, null, new ParameterizedTypeReference<List<upload>>() {});
+        List<upload> responses = response.getBody();
+
+        model.addAttribute("atms", responses);
+
+        return "addnew";
 
     }
+
 
     @PostMapping("/login")
     public String login(Login login, Model model, HttpSession session) {
@@ -102,7 +116,8 @@ public class ArchiveControllerWeb {
                 session.setAttribute("userPassword", getPassword);
                 session.setAttribute("userRole", getRole);
                 System.out.println(getUser);
-                return "redirect:/dashboard";
+                System.out.println(getRole);
+                return "redirect:/archive/dashboard";
             }
 
         }
@@ -121,31 +136,28 @@ public class ArchiveControllerWeb {
     {
         session.invalidate();
         redirectAttributes.addFlashAttribute("logged_out", "Logged out Successfully");
-        return "redirect:/";
+        return "redirect:/archive/";
     }
 
     @GetMapping("/dash")
     public String dashboard(HttpSession session, RedirectAttributes redirectAttributes)
     {
-        return "redirect:/dashboard";
+        return "redirect:/archive/dashboard";
     }
 
 
-    @PostMapping(path = "/getjournals", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+    @PostMapping("/getjournals")
     public String GetJournals(@RequestParam("terminal") String terminal,
                               @RequestParam("startDate") String startDate,
                               @RequestParam("endDate") String endDate,
                               RedirectAttributes redirectAttributes){
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Content-Type", "application/json;charset=UTF-8;");
 
         List<ArchiveEntity> journals = (List<ArchiveEntity>)archiveService.fetchJournals(startDate, endDate, terminal);
         System.out.println(journals);
+        redirectAttributes.addFlashAttribute("journals", journals);
+        return "redirect:/archive/journals";
 
-        redirectAttributes.addAttribute("journals", journals);
-        
-        return "redirect:/journals";
 
     }
 

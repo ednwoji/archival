@@ -11,6 +11,8 @@ public class ArchivalApplication {
 		SpringApplication.run(ArchivalApplication.class, args);
 //		String password = BCrypt.hashpw("test1234", BCrypt.gensalt());
 //		System.out.println(password);
+
+
 	}
 
 }

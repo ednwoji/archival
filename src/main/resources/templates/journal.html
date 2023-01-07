@@ -5,13 +5,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Journals</title>
-  <link rel="stylesheet" href="/css/dashboard.css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/dashboard.css" rel="stylesheet">
+  <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
+  <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
+  <link href="/css/FontAwesome/css/font-awesome.css" rel="stylesheet">
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="/css/bootstrap/js/bootstrap.min.js"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 </head>
 
@@ -54,29 +54,133 @@
     <header>
       <a href="#">Archival Application</a>
     </header>
-    <ul class="nav">
+    <ul class="nav" th:if="${session.userRole eq 'ATM_ADMIN'}" >
       <li>
-        <a th:href="@{/dashboard}">
+        <a th:href="@{/archive/dashboard}">
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
       <li class="active">
-        <a th:href="@{/journals}">
+        <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
       </li>
       <li>
-        <a th:href="@{/footages}">
+        <a th:href="@{/archive/footages}">
           <i class="zmdi zmdi-widgets"></i> Request For Footages
         </a>
       </li>
+
       <li>
+
+        <a th:href="@{/archive/addition}">
+          <i class="zmdi zmdi-calendar"></i> Add New ATMs
+        </a>
+      </li>
+
+      <li>
+
         <a href="#">
-          <i class="zmdi zmdi-calendar"></i> Footages From June 1st
+          <i class="zmdi zmdi-calendar"></i> View Daily Report
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+
+
+    <ul class="nav" th:if="${session.userRole eq 'SUPPORT'}" >
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li class="active">
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
       </li>
       <li>
-        <a th:href="@{/logout}">
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Request For Footages
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+
+    <ul class="nav" th:if="${session.userRole eq 'CONTROL'}" >
+
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li class="active">
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> Request For Journals
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Request For Footages
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Download Active ATMs
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Grant Access
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+
+
+
+    <ul class="nav" th:if="${session.userRole eq 'ACCESS_CONTROL'}" >
+
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li class="active">
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> View Users
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Download List of Active Users
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
           <i class="zmdi zmdi-info-outline"></i> Logoff
         </a>
       </li>
@@ -89,9 +193,10 @@
       <div class="container-fluid">
               <h1 th:text="'Hi, ' + ${session.userName}"/>
       </div>
+
     </nav>
     <div class="container-fluid">
-      <form class="well form-horizontal" action="#" th:action="@{/getjournals}" th:object="${archiveEntity}" method="post"  id="contact_form">
+      <form class="well form-horizontal" action="#" th:action="@{/fetch/getjournals}" th:object="${archiveEntity}" method="post"  id="contact_form">
 
         <fieldset>
 
@@ -116,7 +221,7 @@
             <div class="col-md-4 inputGroupContainer">
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input placeholder="Start Date" value="Start Date" class="form-control" th:field="*{startDate}" type="date" required>
+                <input placeholder="Start Date" class="form-control" th:field="*{startDate}" type="date" required>
                 <input placeholder="End Date" class="form-control" th:field="*{endDate}" type="date" required>
               </div>
             </div>
@@ -130,9 +235,7 @@
         </fieldset>
       </form>
 
-<!--      <div th:if="${journals}">-->
-<!--      <div th:if="${not #lists.isEmpty(journals)}">-->
-<!--      </div>-->
+      <div th:if="${journals != null}">
 
       <div class="container">
         <table class="table table-bordered table-striped">
@@ -143,22 +246,20 @@
             <th>Name</th>
             <th>Terminal ID</th>
             <th>Date</th>
-            <th>Option</th>
           </tr>
 
           </thead>
           <tbody>
           <!--          <tr th:each="item : ${journals}">-->
           <tr th:each="item : ${journals}">
-            <!--            <td>-->
-            <!--              <div class="btn btn-group-sm" role="group">-->
-            <!--                <a class="btn btn-info" href="#">Download</a>-->
-            <!--              </div>-->
-            <!--            </td>-->
+
             <td th:text="${item.name}"></td>
             <td th:text="${item.terminal}"></td>
             <td th:text="${item.startDate}"></td>
-            <td> <a th:href="#" class="btn btn-primary">Download</a>
+            <td>
+              <div class="btn btn-group-sm" role="group">
+                <a th:href="@{/fetch/download/{name}(name=${item.name})}" th:text="Download"></a>
+              </div>
             </td>
           </tr>
           </tbody>
@@ -168,7 +269,7 @@
         </table>
 
       </div>
-
+      </div>
 
     </div>
   </div>

@@ -29,34 +29,142 @@
         <header>
             <a href="#">Archival Application</a>
         </header>
-        <ul class="nav">
+        <ul class="nav" th:if="${session.userRole eq 'ATM_ADMIN'}" >
             <li class="active">
-                <a th:href="@{/dashboard}">
+                <a th:href="@{/archive/dashboard}">
                     <i class="zmdi zmdi-view-dashboard"></i> Dashboard
                 </a>
             </li>
             <li>
-                <a th:href="@{/journals}">
+                <a th:href="@{/archive/journals}">
                     <i class="zmdi zmdi-link"></i> Request For Journals
                 </a>
             </li>
             <li>
-                <a th:href="@{/footages}">
+                <a th:href="@{/archive/footages}">
                     <i class="zmdi zmdi-widgets"></i> Request For Footages
                 </a>
             </li>
+
             <li>
-                <a href="#">
-                    <i class="zmdi zmdi-calendar"></i> Footages From June 1st
+
+                <a th:href="@{/archive/addition}">
+                    <i class="zmdi zmdi-calendar"></i> Add New ATMs
                 </a>
             </li>
+
             <li>
-                <a th:href="@{/logout}">
+
+                <a href="#">
+                    <i class="zmdi zmdi-calendar"></i> View Daily Report
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
                     <i class="zmdi zmdi-info-outline"></i> Logoff
                 </a>
             </li>
 
         </ul>
+
+
+        <ul class="nav" th:if="${session.userRole eq 'SUPPORT'}" >
+            <li class="active">
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+
+        <ul class="nav" th:if="${session.userRole eq 'CONTROL'}" >
+
+            <li class="active">
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Download Active ATMs
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Grant Access
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+
+
+
+        <ul class="nav" th:if="${session.userRole eq 'ACCESS_CONTROL'}" >
+
+            <li class="active">
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> View Users
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Download List of Active Users
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+
+
+        </ul>
+
+
     </div>
     <!-- Content -->
     <div id="content">

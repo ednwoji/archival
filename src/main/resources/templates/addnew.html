@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Footages</title>
+  <title>Addition</title>
   <link href="/css/dashboard.css" rel="stylesheet">
   <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
   <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
@@ -60,12 +60,12 @@
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li>
+      <li class="active">
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
       </li>
-      <li class="active">
+      <li>
         <a th:href="@{/archive/footages}">
           <i class="zmdi zmdi-widgets"></i> Request For Footages
         </a>
@@ -100,12 +100,12 @@
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li>
+      <li class="active">
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
       </li>
-      <li class="active">
+      <li>
         <a th:href="@{/archive/footages}">
           <i class="zmdi zmdi-widgets"></i> Request For Footages
         </a>
@@ -126,13 +126,13 @@
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li>
+      <li class="active">
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
       </li>
 
-      <li class="active">
+      <li>
         <a th:href="@{/archive/footages}">
           <i class="zmdi zmdi-widgets"></i> Request For Footages
         </a>
@@ -167,13 +167,13 @@
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li>
+      <li class="active">
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> View Users
         </a>
       </li>
 
-      <li class="active">
+      <li>
         <a th:href="@{/archive/footages}">
           <i class="zmdi zmdi-widgets"></i> Download List of Active Users
         </a>
@@ -196,36 +196,128 @@
 
     </nav>
     <div class="container-fluid">
-      <form class="well form-horizontal" action="#" th:action="@{/fetch/getjournals}" th:object="${archiveEntity}" method="post"  id="contact_form">
+      <div th:if="${success != null}">
+
+        <b th:text="${success}"/>
+
+      </div>
+      <form class="well form-horizontal" action="#"  th:action="@{/fetch/saveAtm}" method="post"  id="contact_form">
 
         <fieldset>
 
           <!-- Form Name -->
-          <legend>Fill below details</legend>
+          <legend>Enter below details to Create New ATM</legend>
 
           <!-- Text input-->
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">ATM Brand</label>
+            <div class="col-md-4 selectContainer">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                <select name="atm" class="form-control selectpicker" >
+                  <option value="" >Please select ATM Brand</option>
+                  <option value="NCR">NCR</option>
+                  <option value="wincor">Wincor</option>
+                  <option value="grg">GRG</option>
+                  <option value="diebold">Diebold</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text input-->
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">State</label>
+            <div class="col-md-4 selectContainer">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                <select name="state" class="form-control selectpicker" >
+                  <option value=" " >Please select your state</option>
+                  <option>Abia </option>
+                  <option>Adamawa </option>
+                  <option>Akwa Ibom </option>
+                  <option>Anambra </option>
+                  <option>Bauchi </option>
+                  <option>Bayelsa </option>
+                  <option>Benue </option>
+                  <option>Borno </option>
+                  <option>Cross River </option>
+                  <option>Delta </option>
+                  <option>Ebonyi </option>
+                  <option>Edo </option>
+                  <option>Ekiti </option>
+                  <option>Enugu </option>
+                  <option>Gombe </option>
+                  <option>Imo </option>
+                  <option>Jigawa </option>
+                  <option>Kaduna </option>
+                  <option>Kano </option>
+                  <option>Katsina </option>
+                  <option>Kebbi </option>
+                  <option>Kogi </option>
+                  <option>Kwara </option>
+                  <option>Lagos </option>
+                  <option>Nasarawa </option>
+                  <option>Niger </option>
+                  <option>Ogun </option>
+                  <option>Ondo </option>
+                  <option>Osun </option>
+                  <option>Oyo </option>
+                  <option>Plateau </option>
+                  <option>Rivers </option>
+                  <option>Sokoto </option>
+                  <option>Taraba </option>
+                  <option>Yobe </option>
+                  <option>Zamfara </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+<!--          End of State-->
+
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">IP Address</label>
+            <div class="col-md-4 inputGroupContainer">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input placeholder="IP Address" name="ip" class="form-control"  type="text">
+              </div>
+            </div>
+          </div>
+<!--Next one-->
 
           <div class="form-group">
             <label class="col-md-4 control-label">Terminal ID</label>
             <div class="col-md-4 inputGroupContainer">
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input placeholder="Terminal ID" th:field="*{terminal}" class="form-control"  type="text">
+                <input placeholder="Terminal ID" name="terminal" class="form-control"  type="text">
               </div>
             </div>
           </div>
 
-          <!-- Text input-->
+<!--          Select-->
+
           <div class="form-group">
-            <label class="col-md-4 control-label">Date Range</label>
-            <div class="col-md-4 inputGroupContainer">
+            <label class="col-md-4 control-label">Select Branch</label>
+            <div class="col-md-4 selectContainer">
               <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input placeholder="Start Date" class="form-control" th:field="*{startDate}" type="date" required>
-                <input placeholder="End Date" class="form-control" th:field="*{endDate}" type="date" required>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                <select name="branch" class="form-control selectpicker" >
+                  <option value=" " >Please select your state</option>
+                  <option th:each="root : ${atms}" th:value="${root.branch}" th:text="${root.branch}"></option>
+                </select>
               </div>
             </div>
           </div>
+
+<!--          End of Select-->
+
 
           <div class="form-group">
             <div class="col-md-4 inputGroupContainer">
@@ -235,41 +327,7 @@
         </fieldset>
       </form>
 
-      <div th:if="${journals != null}">
 
-        <div class="container">
-          <table class="table table-bordered table-striped">
-
-            <thead>
-
-            <tr>
-              <th>Name</th>
-              <th>Terminal ID</th>
-              <th>Date</th>
-            </tr>
-
-            </thead>
-            <tbody>
-            <!--          <tr th:each="item : ${journals}">-->
-            <tr th:each="item : ${journals}">
-
-              <td th:text="${item.name}"></td>
-              <td th:text="${item.terminal}"></td>
-              <td th:text="${item.startDate}"></td>
-              <td>
-                <div class="btn btn-group-sm" role="group">
-                  <a th:href="@{/fetch/download/{name}(name=${item.name})}" th:text="Download"></a>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-
-            </thead>
-
-          </table>
-
-        </div>
-      </div>
 
     </div>
   </div>

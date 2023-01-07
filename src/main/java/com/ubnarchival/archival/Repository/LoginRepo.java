@@ -25,4 +25,5 @@ public interface LoginRepo extends JpaRepository<Login, Long> {
 
 
 
+
 }
