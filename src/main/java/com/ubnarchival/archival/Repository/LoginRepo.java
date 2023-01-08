@@ -1,6 +1,7 @@
 package com.ubnarchival.archival.Repository;
 
 import com.ubnarchival.archival.Entity.ArchiveEntity;
+import com.ubnarchival.archival.Entity.Estate;
 import com.ubnarchival.archival.Entity.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,6 +30,13 @@ public interface LoginRepo extends JpaRepository<Login, Long> {
 
     @Query(value = "SELECT * FROM loginTest", nativeQuery = true)
     List<Login> GetAllUsers();
+
+
+    @Query(value = "SELECT * FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
+    Login FetchUsersByName(@Param("user_name") String userName);
+
+//    Login findByUserName(String userName);
+
 
 
 

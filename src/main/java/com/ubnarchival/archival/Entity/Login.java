@@ -35,5 +35,5 @@ public class Login {
     private String branch;
 
     @Column(name = "access")
-    private int access;
+    private String access;
 }

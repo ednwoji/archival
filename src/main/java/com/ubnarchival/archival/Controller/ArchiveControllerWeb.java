@@ -270,5 +270,32 @@ public class ArchiveControllerWeb {
     }
 
 
+    @PostMapping("/signup")
+    public String saveUser(Login login, Model model){
+
+        login.setAccess("0");
+        login.setUserRoles("Empty");
+        login.setBranch("Empty");
+        String password = BCrypt.hashpw("test1234", BCrypt.gensalt());
+
+        login.setUserPassword(password);
+
+        String getUser = loginRepo.getUsername(login.getUserName());
+
+        if(getUser != null) {
+            model.addAttribute("error", "User already exists on the DB");
+            return "redirect:/archive/";
+
+        }
+
+        else {
+            loginRepo.save(login);
+            model.addAttribute("error", "Successfully registered, Engage Access Control for Access");
+            return "redirect:/archive/";
+        }
+
+    }
+
+
 
 }

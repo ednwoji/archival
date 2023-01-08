@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View</title>
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
+    <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
+    <link href="/css/FontAwesome/css/font-awesome.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+<div id="viewport">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <header>
+            <a href="#">Archival Application</a>
+        </header>
+        <ul class="nav" th:if="${session.userRole eq 'ATM_ADMIN'}" >
+            <li>
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+
+            <li>
+
+                <a th:href="@{/archive/addition}">
+                    <i class="zmdi zmdi-calendar"></i> Add New ATMs
+                </a>
+            </li>
+
+            <li class="active">
+
+                <a th:href="@{/archive/view}">
+                    <i class="zmdi zmdi-calendar"></i> View ATMs
+                </a>
+            </li>
+
+            <li>
+
+                <a th:href="@{/archive/errors}">
+                    <i class="zmdi zmdi-calendar"></i> View Daily Report
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+
+
+        <ul class="nav" th:if="${session.userRole eq 'SUPPORT'}" >
+            <li class="active">
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+
+        <ul class="nav" th:if="${session.userRole eq 'CONTROL'}" >
+
+            <li class="active">
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Download Active ATMs
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Grant Access
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+
+
+
+        <ul class="nav" th:if="${session.userRole eq 'ACCESS_CONTROL'}" >
+
+            <li>
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li class="active">
+                <a th:href="@{/access/users}">
+                    <i class="zmdi zmdi-link"></i> View Users
+                </a>
+            </li>
+
+
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+
+
+        </ul>
+
+
+    </div>
+    <!-- Content -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <h1 th:text="'Welcome, ' + ${session.userName}"/>
+            </div>
+        </nav>
+        <div class="container-fluid">
+
+            <!--      Beginnning of Form-->
+
+            <div th:if="${record != null}">
+
+                <div class="alert alert-info text-center border border-info">
+                    <b th:text="${record}"/>
+                </div>
+
+            </div>
+            <form class="well form-horizontal" action="#"  th:action="@{/access/getUser}" method="post"  id="contact_form">
+
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>Search using Username</legend>
+
+                    <!-- Text input-->
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Username</label>
+                        <div class="col-md-4 inputGroupContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input placeholder="Username" name="user" class="form-control" id="user"  type="text" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--          Text Input-->
+
+                    <div class="form-group">
+                        <div class="col-md-4 inputGroupContainer">
+                            <button id="submit-form" class="btn btn-md submit-form">Click to Search</button>
+                        </div>
+                    </div>
+
+                    <!--          Submit-->
+
+                </fieldset>
+            </form>
+
+
+            <!--      End of Form-->
+
+
+
+            <br>
+
+            <div th:if="${userresult != null}">
+
+                <div class="container">
+                    <table class="table table-bordered table-striped">
+
+                        <thead>
+
+                        <tr>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Branch</th>
+                            <th>Access</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        <!--          <tr th:each="item : ${journals}">-->
+                        <tr th:each="item : ${userresult}">
+
+                            <td th:text="${item.UserName}"></td>
+                            <td th:text="${item.userRoles}"></td>
+                            <td th:text="${item.branch}"></td>
+                            <td th:text="${item.access}"></td>
+                            <td>
+                                <div class="btn btn-group-sm" role="group">
+                                    <a th:href="@{/access/edit/{id}(id=${item.id})}" th:text="Edit"></a>
+                                    <a th:href="@{/access/inactive/{id}(id=${item.id})}" th:method="put" th:text="Inactive"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        </thead>
+
+                    </table>
+
+                </div>
+            </div>
+
+
+            <div th:else class="container">
+                <table class="table table-striped table-responsive-md border-info" >
+
+                    <thead>
+
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Branch</th>
+                        <th>Access</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${listUsers}">
+                        <td th:text="${item.UserName}"></td>
+                        <td th:text="${item.userRoles}"></td>
+                        <td th:text="${item.branch}"></td>
+                        <td th:text="${item.access}"></td>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    </thead>
+
+                </table>
+
+                <div th:if ="${totalPages > 1}">
+
+                    <div class="row col-sm-10">
+
+                        <div class="col-sm-2">
+                            Total Rows: [[${totalItems}]]
+                        </div>
+
+                        <!--            Beginning Nav-->
+                        <nav>
+                            <ul class="pagination">
+                                <!-- Previous page -->
+                                <li class="page-item" th:if="${currentPage > 0}">
+
+                                    <a class="page-link" th:href="@{'/archive/view/' + ${currentPage + 1}}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+
+                                <!-- Current page -->
+                                <li class="page-item" th:class="${currentPage == 0} ? 'active'">
+                                    <a class="page-link" th:text="${currentPage + 1}" th:href="@{'/archive/view/' + ${currentPage}}"></a>
+                                </li>
+
+                                <!-- Next page -->
+                                <li class="page-item" th:if="${currentPage + 1 < totalPages}">
+                                    <a class="page-link" th:href="@{'/archive/view/' + ${currentPage + 1}}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!--End of Nav-->
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

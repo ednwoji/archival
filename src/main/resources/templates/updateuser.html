@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update</title>
+  <link href="/css/dashboard.css" rel="stylesheet">
+  <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
+  <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
+  <link href="/css/FontAwesome/css/font-awesome.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="/js/home.js"></script>
+
+</head>
+
+<style>
+  form {
+   width: 700px;
+    margin: 0 auto;
+<!--    text-align: center;-->
+  }
+  label {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  input[type="text"] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+    input[type="date"] {
+    width: 23%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+</style>
+
+<body>
+
+
+<div id="viewport">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <header>
+      <a href="#">Archival Application</a>
+    </header>
+    <ul class="nav" th:if="${session.userRole eq 'ATM_ADMIN'}" >
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> Request For Journals
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Request For Footages
+        </a>
+      </li>
+
+      <li>
+
+        <a th:href="@{/archive/addition}">
+          <i class="zmdi zmdi-calendar"></i> Add New ATMs
+        </a>
+      </li>
+
+      <li class="active">
+
+        <a th:href="@{/archive/view}">
+          <i class="zmdi zmdi-calendar"></i> View ATMs
+        </a>
+      </li>
+
+      <li>
+
+        <a href="#">
+          <i class="zmdi zmdi-calendar"></i> View Daily Report
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+
+
+    <ul class="nav" th:if="${session.userRole eq 'SUPPORT'}" >
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li class="active">
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> Request For Journals
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Request For Footages
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+
+    <ul class="nav" th:if="${session.userRole eq 'CONTROL'}" >
+
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li class="active">
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> Request For Journals
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Request For Footages
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Download Active ATMs
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/footages}">
+          <i class="zmdi zmdi-widgets"></i> Grant Access
+        </a>
+      </li>
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+
+
+
+    <ul class="nav" th:if="${session.userRole eq 'ACCESS_CONTROL'}" >
+
+      <li>
+        <a th:href="@{/archive/dashboard}">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li class="active">
+        <a th:href="@{/archive/journals}">
+          <i class="zmdi zmdi-link"></i> View Users
+        </a>
+      </li>
+
+
+      <li>
+        <a th:href="@{/archive/logout}">
+          <i class="zmdi zmdi-info-outline"></i> Logoff
+        </a>
+      </li>
+
+    </ul>
+  </div>
+  <!-- Content -->
+  <div id="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <h1 th:text="'Hi, ' + ${session.userName}"/>
+      </div>
+
+    </nav>
+    <div class="container-fluid">
+      <!--      Start of th Div-->
+      <div th:if="${success != null}">
+
+        <div class="alert alert-info text-center border border-info">
+          <b th:text="${success}"/>
+        </div>
+
+
+
+      </div>
+      <!--      End of th Div-->
+      <form class="well form-horizontal" th:action="@{/access/user/{id}(id=${login.id})}" th:object="${login}" method="POST"  id="contact_form">
+
+        <fieldset>
+
+          <!-- Form Name -->
+          <legend>Enter below details to Modify User</legend>
+
+          <!-- Text input-->
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">User Role</label>
+            <div class="col-md-4 selectContainer">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                <select th:field="*{userRoles}" class="form-control selectpicker" >
+                  <option value="" >Please select Role</option>
+                  <option value="CONTROL">Control</option>
+                  <option value="SUPPORT">Support</option>
+                  <option value="ATM_ADMIN">ATM Admin</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text input-->
+
+
+
+          <!--          End of State-->
+
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">Username</label>
+            <div class="col-md-4 inputGroupContainer">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input class="form-control" type="text" value="th:text=${login.UserName}" th:field="*{UserName}" id="user" placeholder="Add a description">
+              </div>
+            </div>
+          </div>
+          <!--Next one-->
+
+
+          <!--          Select-->
+
+          <div class="form-group">
+            <label class="col-md-4 control-label">Select Branch</label>
+            <div class="col-md-4 selectContainer">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                <select name="branch" class="form-control selectpicker" >
+                  <option value=" " >Please select your branch</option>
+                  <option th:each="root : ${atms}" th:value="${root.branch}" th:text="${root.branch}"></option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!--          End of Select-->
+
+          <div class="form-group">
+            <div class="col-md-4 inputGroupContainer">
+              <button id="submit-form" class="btn btn-md submit-form">Click to Update</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+<script src="/js/home.js"></script>
+
+</html>

@@ -9,7 +9,7 @@ public class ArchivalApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ArchivalApplication.class, args);
-//		String password = BCrypt.hasw3hfgvvhpw("test1234", BCrypt.gensalt());
+//		String password = BCrypt.hashpw("test1234", BCrypt.gensalt());
 //		System.out.println(password);
 
 
