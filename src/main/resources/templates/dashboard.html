@@ -55,7 +55,14 @@
 
             <li>
 
-                <a href="#">
+                <a th:href="@{/archive/view}">
+                    <i class="zmdi zmdi-calendar"></i> View ATMs
+                </a>
+            </li>
+
+            <li>
+
+                <a th:href="@{/archive/errors}">
                     <i class="zmdi zmdi-calendar"></i> View Daily Report
                 </a>
             </li>
@@ -148,11 +155,6 @@
                 </a>
             </li>
 
-            <li>
-                <a th:href="@{/archive/footages}">
-                    <i class="zmdi zmdi-widgets"></i> Download List of Active Users
-                </a>
-            </li>
 
             <li>
                 <a th:href="@{/archive/logout}">
@@ -174,45 +176,32 @@
             </div>
         </nav>
         <div class="container-fluid">
-                Make sure to keep all page content within the
-                <code>#content</code>.
-            <div class="box">
-                Terminals with access
+
+            <div th:if="${session.userRole eq 'ACCESS_CONTROL'}">
+                <div class="box">
+                Total users with access <br><br>
+                <b th:text="${count}"></b>
+                </div>
+
+                <form action="#"  th:action="@{/fetch/exportuser}" th:method="post" >
+
+                <div class="form-group">
+                    <div class="col-md-4 inputGroupContainer">
+                        <button id="submit-form" class="btn btn-md submit-form">Export User List To Excel</button>
+                    </div>
+                </div>
+
+                </form>
+
             </div>
+
+             <div class="box" th:if="${session.userRole ne 'ACCESS_CONTROL'}">
+            Terminals with access<br>
+
+        </div>
 
             <br>
-            <div class="container">
-                <table class="table table-bordered table-striped">
 
-                    <thead>
-
-                    <tr>
-                        <th>Name</th>
-                        <th>Terminal ID</th>
-                        <th>Date</th>
-                    </tr>
-
-                    </thead>
-                    <tbody>
-                    <!--          <tr th:each="item : ${journals}">-->
-                    <tr th:each="item : ${journals}">
-                        <!--            <td>-->
-                        <!--              <div class="btn btn-group-sm" role="group">-->
-                        <!--                <a class="btn btn-info" href="#">Download</a>-->
-                        <!--              </div>-->
-                        <!--            </td>-->
-                        <td th:text="${item.name}"></td>
-                        <td th:text="${item.terminal}"></td>
-                        <td th:text="${item.startDate}"></td>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                    </thead>
-
-                </table>
-
-            </div>
 
         </div>
     </div>

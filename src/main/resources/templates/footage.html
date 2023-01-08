@@ -80,7 +80,14 @@
 
       <li>
 
-        <a href="#">
+        <a th:href="@{/archive/view}">
+          <i class="zmdi zmdi-calendar"></i> View ATMs
+        </a>
+      </li>
+
+      <li>
+
+        <a th:href="@{/archive/errors}">
           <i class="zmdi zmdi-calendar"></i> View Daily Report
         </a>
       </li>
@@ -173,11 +180,7 @@
         </a>
       </li>
 
-      <li class="active">
-        <a th:href="@{/archive/footages}">
-          <i class="zmdi zmdi-widgets"></i> Download List of Active Users
-        </a>
-      </li>
+
 
       <li>
         <a th:href="@{/archive/logout}">

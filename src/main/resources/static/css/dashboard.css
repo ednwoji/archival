@@ -80,7 +80,7 @@ body {
 .box{
    width: 250px;
    height: 100px;
-   background-color: Green;
+   background-color: #00AEEF;
    border: 1px solid #CCCCCC;
    border-radius: 5px;
    padding: 10px;
@@ -91,7 +91,7 @@ body {
 }
 
 .submit-form{
-background-color: Green;
+background-color: #00AEEF;
 border: 1px solid #543800;
 }
 

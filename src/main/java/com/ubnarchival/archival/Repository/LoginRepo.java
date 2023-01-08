@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface LoginRepo extends JpaRepository<Login, Long> {
 
@@ -16,11 +18,18 @@ public interface LoginRepo extends JpaRepository<Login, Long> {
     @Query(value = "SELECT role FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
     String getUserRole(@Param("user_name") String userName);
 
-    @Query(value = "SELECT * FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
+    @Query(value = "SELECT * FROM loginTest WHERE user_name = :user_name AND access = 1", nativeQuery = true)
     Login getUsers(@Param("user_name") String userName);
 
-    @Query(value = "SELECT user_name FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
+    @Query(value = "SELECT user_name FROM loginTest WHERE user_name = :user_name AND access = 1", nativeQuery = true)
     String getUsername(@Param("user_name") String userName);
+
+    @Query(value = "SELECT COUNT(*) FROM loginTest WHERE access = 1", nativeQuery = true)
+    int getTotalUsers();
+
+    @Query(value = "SELECT * FROM loginTest", nativeQuery = true)
+    List<Login> GetAllUsers();
+
 
 
 

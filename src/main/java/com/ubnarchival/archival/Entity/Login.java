@@ -29,5 +29,11 @@ public class Login {
 //    private String token;
 
     @Column(name = "role")
-    private Roles userRoles;
+    private String userRoles;
+
+    @Column(name = "branch")
+    private String branch;
+
+    @Column(name = "access")
+    private int access;
 }

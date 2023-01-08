@@ -2,9 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Journals</title>
+  <title>View</title>
   <link href="/css/dashboard.css" rel="stylesheet">
   <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
   <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
@@ -13,40 +11,11 @@
   <script src="/css/bootstrap/js/bootstrap.min.js"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+
+
 </head>
 
-<style>
-  form {
-   width: 700px;
-    margin: 0 auto;
-<!--    text-align: center;-->
-  }
-  label {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  input[type="text"] {
-    width: 30%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-  }
-    input[type="date"] {
-    width: 23%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-  }
-</style>
-
 <body>
-
 
 <div id="viewport">
   <!-- Sidebar -->
@@ -60,7 +29,7 @@
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li class="active">
+      <li>
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
@@ -78,7 +47,7 @@
         </a>
       </li>
 
-      <li>
+      <li class="active">
 
         <a th:href="@{/archive/view}">
           <i class="zmdi zmdi-calendar"></i> View ATMs
@@ -102,12 +71,12 @@
 
 
     <ul class="nav" th:if="${session.userRole eq 'SUPPORT'}" >
-      <li>
+      <li class="active">
         <a th:href="@{/archive/dashboard}">
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li class="active">
+      <li>
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
@@ -128,12 +97,12 @@
 
     <ul class="nav" th:if="${session.userRole eq 'CONTROL'}" >
 
-      <li>
+      <li class="active">
         <a th:href="@{/archive/dashboard}">
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li class="active">
+      <li>
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> Request For Journals
         </a>
@@ -169,12 +138,12 @@
 
     <ul class="nav" th:if="${session.userRole eq 'ACCESS_CONTROL'}" >
 
-      <li>
+      <li class="active">
         <a th:href="@{/archive/dashboard}">
           <i class="zmdi zmdi-view-dashboard"></i> Dashboard
         </a>
       </li>
-      <li class="active">
+      <li>
         <a th:href="@{/archive/journals}">
           <i class="zmdi zmdi-link"></i> View Users
         </a>
@@ -188,23 +157,36 @@
         </a>
       </li>
 
+
+
     </ul>
+
+
   </div>
   <!-- Content -->
   <div id="content">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-              <h1 th:text="'Hi, ' + ${session.userName}"/>
+        <h1 th:text="'Welcome, ' + ${session.userName}"/>
       </div>
-
     </nav>
     <div class="container-fluid">
-      <form class="well form-horizontal" action="#" th:action="@{/fetch/getjournals}" th:object="${archiveEntity}" method="post"  id="contact_form">
+
+<!--      Beginnning of Form-->
+
+      <div th:if="${record != null}">
+
+        <div class="alert alert-info text-center border border-info">
+          <b th:text="${record}"/>
+        </div>
+
+      </div>
+      <form class="well form-horizontal" action="#"  th:action="@{/fetch/getAtm}" method="post"  id="contact_form">
 
         <fieldset>
 
           <!-- Form Name -->
-          <legend>Fill below details</legend>
+          <legend>Search For an ATM with Terminal ID</legend>
 
           <!-- Text input-->
 
@@ -213,56 +195,94 @@
             <div class="col-md-4 inputGroupContainer">
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input placeholder="Terminal ID" th:field="*{terminal}" class="form-control"  type="text">
+                <input placeholder="Terminal ID" name="terminal" class="form-control" id="terminal"  type="text" required>
               </div>
             </div>
           </div>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-md-4 control-label">Date Range</label>
-            <div class="col-md-4 inputGroupContainer">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input placeholder="Start Date" class="form-control" th:field="*{startDate}" type="date" required>
-                <input placeholder="End Date" class="form-control" th:field="*{endDate}" type="date" required>
-              </div>
-            </div>
-          </div>
+<!--          Text Input-->
 
           <div class="form-group">
             <div class="col-md-4 inputGroupContainer">
               <button id="submit-form" class="btn btn-md submit-form">Click to Search</button>
             </div>
           </div>
+
+<!--          Submit-->
+
         </fieldset>
       </form>
 
-      <div th:if="${journals != null}">
 
-      <div class="container">
-        <table class="table table-bordered table-striped">
+          <!--      End of Form-->
+
+
+
+      <br>
+
+      <div th:if="${atmresult != null}">
+
+        <div class="container">
+          <table class="table table-bordered table-striped">
+
+            <thead>
+
+            <tr>
+              <th>Terminal ID</th>
+              <th>ATM</th>
+              <th>IP</th>
+              <th>ATM Status</th>
+              <th>Branch</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <!--          <tr th:each="item : ${journals}">-->
+            <tr th:each="item : ${atmresult}">
+
+              <td th:text="${item.terminal}"></td>
+              <td th:text="${item.atm}"></td>
+              <td th:text="${item.ip}"></td>
+              <td th:text="${item.atmstatus}"></td>
+              <td th:text="${item.branch}"></td>
+              <td>
+                <div class="btn btn-group-sm" role="group">
+                  <a th:href="@{/archive/edit/{id}(id=${item.id})}" th:text="Edit"></a>
+                  <a th:href="@{/archive/inactive/{id}(id=${item.id})}" th:method="put" th:text="Inactive"></a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+
+            </thead>
+
+          </table>
+
+        </div>
+        </div>
+
+
+      <div th:else class="container">
+        <table class="table table-striped table-responsive-md border-info" >
 
           <thead>
 
           <tr>
-            <th>Name</th>
             <th>Terminal ID</th>
-            <th>Date</th>
+            <th>atm</th>
+            <th>IP</th>
+            <th>ATM Status</th>
+            <th>Branch</th>
           </tr>
 
           </thead>
           <tbody>
-          <!--          <tr th:each="item : ${journals}">-->
-          <tr th:each="item : ${journals}">
-
-            <td th:text="${item.name}"></td>
+          <tr th:each="item : ${listAtms}">
             <td th:text="${item.terminal}"></td>
-            <td th:text="${item.startDate}"></td>
-            <td>
-              <div class="btn btn-group-sm" role="group">
-                <a th:href="@{/fetch/download/{name}(name=${item.name})}" th:text="Download"></a>
-              </div>
+            <td th:text="${item.atm}"></td>
+            <td th:text="${item.ip}"></td>
+            <td th:text="${item.atmstatus}"></td>
+            <td th:text="${item.branch}"></td>
             </td>
           </tr>
           </tbody>
@@ -271,7 +291,44 @@
 
         </table>
 
-      </div>
+        <div th:if ="${totalPages > 1}">
+
+          <div class="row col-sm-10">
+
+            <div class="col-sm-2">
+              Total Rows: [[${totalItems}]]
+            </div>
+
+<!--            Beginning Nav-->
+            <nav>
+              <ul class="pagination">
+                <!-- Previous page -->
+                <li class="page-item" th:if="${currentPage > 0}">
+
+                  <a class="page-link" th:href="@{'/archive/view/' + ${currentPage + 1}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+
+                <!-- Current page -->
+                <li class="page-item" th:class="${currentPage == 0} ? 'active'">
+                  <a class="page-link" th:text="${currentPage + 1}" th:href="@{'/archive/view/' + ${currentPage}}"></a>
+                </li>
+
+                <!-- Next page -->
+                <li class="page-item" th:if="${currentPage + 1 < totalPages}">
+                  <a class="page-link" th:href="@{'/archive/view/' + ${currentPage + 1}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+<!--End of Nav-->
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
@@ -280,8 +337,6 @@
 
 
 
-
 </body>
-
 
 </html>

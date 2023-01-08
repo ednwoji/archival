@@ -1,28 +1,29 @@
 package com.ubnarchival.archival.Controller;
 
 
-import com.ubnarchival.archival.Entity.ArchiveEntity;
-import com.ubnarchival.archival.Entity.upload;
-import com.ubnarchival.archival.Entity.Login;
+import com.ubnarchival.archival.Entity.*;
 import com.ubnarchival.archival.Helpers.Token;
+import com.ubnarchival.archival.Repository.EstateRepository;
 import com.ubnarchival.archival.Repository.LoginRepo;
 import com.ubnarchival.archival.Service.ArchiveService;
+import com.ubnarchival.archival.Service.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
@@ -35,6 +36,18 @@ public class ArchiveControllerWeb {
 
     @Autowired
     private ArchiveService archiveService;
+
+    @Autowired
+    private EstateService estateService;
+
+    @Autowired
+    private EstateRepository estateRepository;
+
+    @Value("${numberPerPage}")
+    private int pageSize;
+
+    @Value("${backendurl}")
+    private String externalService;
 
     @GetMapping("/")
     public ModelAndView homepage(Login login) {
@@ -51,11 +64,14 @@ public class ArchiveControllerWeb {
 
         ModelAndView modelAndView = new ModelAndView("dashboard");
 
-        List<ArchiveEntity> journals = (List<ArchiveEntity>) archiveService.fetchAll();
-        System.out.println(journals);
+       int count = loginRepo.getTotalUsers();
+
+//        List<ArchiveEntity> journals = (List<ArchiveEntity>) archiveService.fetchAll();
+//        System.out.println(journals);
 
 //        redirectAttributes.addAttribute("journals", journals);
-        modelAndView.addObject("journals", journals);
+
+        modelAndView.addObject("count", count);
 
 
         return modelAndView;
@@ -77,12 +93,21 @@ public class ArchiveControllerWeb {
     public String createATM(upload atmParam, Model model) {
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<upload>> response = restTemplate.exchange("http://localhost:9090/getAll", HttpMethod.GET, null, new ParameterizedTypeReference<List<upload>>() {});
-        List<upload> responses = response.getBody();
 
-        model.addAttribute("atms", responses);
+        try {
+            ResponseEntity<List<Branches>> response = restTemplate.exchange(externalService+"getBranches", HttpMethod.GET, null, new ParameterizedTypeReference<List<Branches>>() {
+            });
+            List<Branches> responses = response.getBody();
+            model.addAttribute("atms", responses);
+            return "addnew";
 
-        return "addnew";
+        }
+        catch (Exception e) {
+            model.addAttribute("atms", "Record Entry Failed. Please try again");
+            return "addnew";
+
+        }
+
 
     }
 
@@ -158,6 +183,89 @@ public class ArchiveControllerWeb {
         redirectAttributes.addFlashAttribute("journals", journals);
         return "redirect:/archive/journals";
 
+
+    }
+
+
+    @GetMapping("/view/{pageNo}")
+    public String viewPage(@PathVariable(value = "pageNo") int pageNo, Model model) {
+
+
+        Page<Estate> page = estateService.FindPaginated(pageNo, pageSize);
+        List<Estate> listAtms = page.getContent();
+
+        model.addAttribute("currentPage",pageNo);
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("totalItems",page.getTotalElements());
+        model.addAttribute("listAtms",listAtms);
+
+        return "viewatm";
+    }
+
+    @GetMapping("/view")
+    public String viewAtms(Model model) {
+       return viewPage(1,model);
+
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+
+        Estate estate = estateRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Estate ID: " + id + " not found"));
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<Branches>> response = restTemplate.exchange(externalService+"getBranches", HttpMethod.GET, null, new ParameterizedTypeReference<List<Branches>>() {
+        });
+        List<Branches> responses = response.getBody();
+
+
+
+        model.addAttribute("atms", responses);
+        model.addAttribute("estate", estate);
+
+        return "updateatm";
+    }
+
+    @PutMapping("/updatestatus")
+    @Modifying
+    @Transactional
+    public String MarkInactive(long id, Estate estate, RedirectAttributes redirectAttributes) {
+
+                Estate result = estateRepository.findById(id).
+                orElseThrow(() -> new IllegalArgumentException("Estate ID: " + id + " not found"));;
+
+                if(result.getAtmstatus().equals("1")){
+                    result.setAtmstatus("0");
+                    redirectAttributes.addFlashAttribute("record", "ATM Turned Inactive");
+                }
+
+                else if(result.getAtmstatus().equals("0")) {
+                    result.setAtmstatus("1");
+                    redirectAttributes.addFlashAttribute("record", "ATM Turned Active");
+                }
+
+                estateRepository.save(result);
+
+                return "redirect:/archive/view";
+
+
+    }
+
+    @GetMapping("/inactive/{id}")
+    public String changeStatus(@PathVariable("id") long id, Estate estate, RedirectAttributes redirectAttributes){
+
+
+        return MarkInactive(id, estate, redirectAttributes);
+
+    }
+
+
+    @GetMapping("/errors")
+    public ModelAndView viewUploadError() {
+
+        ModelAndView modelAndView = new ModelAndView("viewupload");
+        return modelAndView;
 
     }
 

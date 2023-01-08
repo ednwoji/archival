@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Addition</title>
+  <title>Update</title>
   <link href="/css/dashboard.css" rel="stylesheet">
   <link href="/css/bootstrap/css/bootstrap.css" rel="stylesheet" >
   <link href="/css/FontAwesome/css/all.css" rel="stylesheet">
@@ -72,14 +72,14 @@
         </a>
       </li>
 
-      <li class="active">
+      <li>
 
         <a th:href="@{/archive/addition}">
           <i class="zmdi zmdi-calendar"></i> Add New ATMs
         </a>
       </li>
 
-      <li>
+      <li class="active">
 
         <a th:href="@{/archive/view}">
           <i class="zmdi zmdi-calendar"></i> View ATMs
@@ -88,7 +88,7 @@
 
       <li>
 
-        <a th:href="@{/archive/errors}">
+        <a href="#">
           <i class="zmdi zmdi-calendar"></i> View Daily Report
         </a>
       </li>
@@ -181,6 +181,7 @@
         </a>
       </li>
 
+
       <li>
         <a th:href="@{/archive/logout}">
           <i class="zmdi zmdi-info-outline"></i> Logoff
@@ -198,20 +199,18 @@
 
     </nav>
     <div class="container-fluid">
-<!--      Start of th Div-->
+      <!--      Start of th Div-->
       <div th:if="${success != null}">
 
         <div class="alert alert-info text-center border border-info">
-        <b th:text="${success}"/>
+          <b th:text="${success}"/>
         </div>
 
-        <div id="ipResult">
 
-        </div>
 
       </div>
-<!--      End of th Div-->
-      <form class="well form-horizontal" action="#"  th:action="@{/fetch/saveAtm}" method="post"  id="contact_form">
+      <!--      End of th Div-->
+      <form class="well form-horizontal" th:action="@{/fetch/estate/{id}(id=${estate.id})}" th:object="${estate}" method="POST"  id="contact_form">
 
         <fieldset>
 
@@ -287,7 +286,7 @@
           </div>
 
 
-<!--          End of State-->
+          <!--          End of State-->
 
 
           <div class="form-group">
@@ -295,23 +294,23 @@
             <div class="col-md-4 inputGroupContainer">
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input placeholder="IP Address" name="ip" class="form-control" id="ip"  type="text" onchange="makeAjaxPostCall()" required>
+                <input class="form-control" type="text" value="th:text=${estate.ip}" th:field="*{ip}" id="ip" placeholder="Add a description">
               </div>
             </div>
           </div>
-<!--Next one-->
+          <!--Next one-->
 
           <div class="form-group">
             <label class="col-md-4 control-label">Terminal ID</label>
             <div class="col-md-4 inputGroupContainer">
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input placeholder="Terminal ID" name="terminal" class="form-control"  type="text">
+                <input class="form-control" type="text" value="th:text=${estate.terminal}" th:field="*{terminal}" id="description" placeholder="Enter Terminal ID">
               </div>
             </div>
           </div>
 
-<!--          Select-->
+          <!--          Select-->
 
           <div class="form-group">
             <label class="col-md-4 control-label">Select Branch</label>
@@ -326,12 +325,12 @@
             </div>
           </div>
 
-<!--          End of Select-->
+          <!--          End of Select-->
 
 
           <div class="form-group">
             <div class="col-md-4 inputGroupContainer">
-              <button id="submit-form" class="btn btn-md submit-form">Click to Search</button>
+              <button id="submit-form" class="btn btn-md submit-form">Click to Update</button>
             </div>
           </div>
         </fieldset>

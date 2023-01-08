@@ -1,6 +1,7 @@
 package com.ubnarchival.archival.Service;
 
 import com.ubnarchival.archival.Entity.ArchiveEntity;
+import com.ubnarchival.archival.Entity.Estate;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface ArchiveService {
     List<ArchiveEntity> fetchJournals(String startDate, String endDate, String terminal);
 
     List<ArchiveEntity> fetchAll();
+
+    List<Estate> fetchEstate();
 }

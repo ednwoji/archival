@@ -1,7 +1,9 @@
 package com.ubnarchival.archival.Service;
 
 import com.ubnarchival.archival.Entity.ArchiveEntity;
+import com.ubnarchival.archival.Entity.Estate;
 import com.ubnarchival.archival.Repository.ArchiveRepo;
+import com.ubnarchival.archival.Repository.EstateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ public class ArchiveServiceImpl implements ArchiveService {
 
     @Autowired
     ArchiveRepo archiveRepo;
+
+    @Autowired
+    EstateRepository estateRepository;
     @Override
     public ArchiveEntity addFile(ArchiveEntity archiveEntity) {
         return archiveRepo.save(archiveEntity);
@@ -41,6 +46,11 @@ public class ArchiveServiceImpl implements ArchiveService {
     @Override
     public List<ArchiveEntity> fetchAll() {
         return archiveRepo.findAll();
+    }
+
+    @Override
+    public List<Estate> fetchEstate() {
+        return estateRepository.findAll();
     }
 
 
