@@ -101,6 +101,33 @@
 
         </ul>
 
+
+        <ul class="nav" th:if="${session.userRole eq 'BRANCH'}" >
+            <li class="active">
+                <a th:href="@{/archive/dashboard}">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/journals}">
+                    <i class="zmdi zmdi-link"></i> Request For Journals
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/archive/footages}">
+                    <i class="zmdi zmdi-widgets"></i> Request For Footages
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/archive/logout}">
+                    <i class="zmdi zmdi-info-outline"></i> Logoff
+                </a>
+            </li>
+
+        </ul>
+
+
         <ul class="nav" th:if="${session.userRole eq 'CONTROL'}" >
 
             <li class="active">
@@ -183,6 +210,7 @@
                 <b th:text="${count}"></b>
                 </div>
 
+
                 <form action="#"  th:action="@{/fetch/exportuser}" th:method="post" >
 
                 <div class="form-group">
@@ -195,10 +223,13 @@
 
             </div>
 
-             <div class="box" th:if="${session.userRole ne 'ACCESS_CONTROL'}">
+            <div class="box" th:if="${session.userRole ne 'ACCESS_CONTROL'}">
             Terminals with access<br>
 
-        </div>
+                <b th:text="${session.branchCount}"/>
+
+            </div>
+
 
             <br>
 

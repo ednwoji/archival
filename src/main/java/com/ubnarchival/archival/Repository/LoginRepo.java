@@ -16,6 +16,9 @@ public interface LoginRepo extends JpaRepository<Login, Long> {
     @Query(value = "SELECT user_password FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
     String getUserPassword(@Param("user_name") String userName);
 
+    @Query(value = "SELECT branch FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
+    String getBranch(@Param("user_name") String userName);
+
     @Query(value = "SELECT role FROM loginTest WHERE user_name = :user_name", nativeQuery = true)
     String getUserRole(@Param("user_name") String userName);
 

@@ -122,7 +122,11 @@ public class ArchiveControllerWeb {
 
         String getUser = loginRepo.getUsername(login.getUserName());
 
+        String getBranch = loginRepo.getBranch(login.getUserName());
+
         String getRole = String.valueOf(loginRepo.getUserRole(login.getUserName()));
+
+        int BranchCount = estateRepository.getNumberofBranches(getBranch);
 
 
         if(getUser != null) {
@@ -135,13 +139,24 @@ public class ArchiveControllerWeb {
 
             else{
 
+                if(getRole.equals("BRANCH")){
+                    session.setAttribute("branchCount", BranchCount);
+                }
+
+                else{
+                    session.setAttribute("branchCount", "N/A");
+                }
+
                 model.addAttribute("name", getUser);
+                model.addAttribute("branchCount", BranchCount);
 
                 session.setAttribute("userName", getUser);
                 session.setAttribute("userPassword", getPassword);
                 session.setAttribute("userRole", getRole);
+                session.setAttribute("userBranch", getBranch);
                 System.out.println(getUser);
                 System.out.println(getRole);
+                System.out.println(BranchCount);
                 return "redirect:/archive/dashboard";
             }
 
