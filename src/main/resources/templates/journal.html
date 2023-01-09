@@ -226,6 +226,13 @@
 
     </nav>
     <div class="container-fluid">
+
+      <div th:if="${error != null}">
+        <div class="alert alert-info text-center border border-info">
+          <b th:text="${error}"/>
+        </div>
+      </div>
+
       <form class="well form-horizontal" action="#" th:action="@{/fetch/getjournals}" th:object="${archiveEntity}" method="post"  id="contact_form">
 
         <fieldset>
@@ -288,7 +295,8 @@
             <td th:text="${item.startDate}"></td>
             <td>
               <div class="btn btn-group-sm" role="group">
-                <a th:href="@{/fetch/download/{name}(name=${item.name})}" th:text="Download"></a>
+<!--                <a th:href="@{/fetch/download/{terminal}(terminal=${item.terminal})/{name}(name=${item.name})}" th:text="Download"></a>-->
+                <a th:href="@{/fetch/download/{terminal}/{name}(terminal=${item.terminal},name=${item.name})}" th:text="Download" class="btn btn-default"></a>
               </div>
             </td>
           </tr>

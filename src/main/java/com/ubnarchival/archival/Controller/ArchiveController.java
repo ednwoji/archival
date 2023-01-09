@@ -30,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.HashMap;
@@ -57,6 +58,9 @@ public class ArchiveController {
 
     @Value("${backendurl}")
     private String externalService;
+
+    @Value("${serverPath}")
+    private String backendPath;
 
     @PostMapping("/addfile")
     public ArchiveEntity addNewFile(@Valid @RequestBody ArchiveEntity archiveEntity) {
@@ -93,22 +97,50 @@ public class ArchiveController {
     public String GetJournals(@RequestParam("terminal") String terminal,
                               @RequestParam("startDate") String startDate,
                               @RequestParam("endDate") String endDate,
-                              RedirectAttributes redirectAttributes){
+                              RedirectAttributes redirectAttributes,
+                              HttpSession session){
 
 
-        List<ArchiveEntity> journals = (List<ArchiveEntity>)archiveService.fetchJournals(startDate, endDate, terminal);
-        System.out.println(journals);
-        redirectAttributes.addFlashAttribute("journals", journals);
-        return "redirect:/archive/journals";
+        String checkBranch = (String) session.getAttribute("userBranch");
+        String checkRole = (String) session.getAttribute("userRole");
+        Estate estate = estateRepository.findByterminal(terminal);
+        String currentBranch = estate.getBranch();
 
+        if(!checkRole.equals("BRANCH")) {
+
+            List<ArchiveEntity> journals = (List<ArchiveEntity>) archiveService.fetchJournals(startDate, endDate, terminal);
+            System.out.println(journals);
+            redirectAttributes.addFlashAttribute("journals", journals);
+            return "redirect:/archive/journals";
+
+        }
+
+        else{
+
+            if(!checkBranch.equals(currentBranch)){
+                redirectAttributes.addFlashAttribute("error", "You don't have access to view for this Branch");
+            }
+
+            else if(checkBranch.equals(currentBranch)){
+                List<ArchiveEntity> journals = (List<ArchiveEntity>) archiveService.fetchJournals(startDate, endDate, terminal);
+                System.out.println(journals);
+                redirectAttributes.addFlashAttribute("journals", journals);
+            }
+            return "redirect:/archive/journals";
+        }
 
     }
 
 
-    @GetMapping("/download/{name}")
-    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String name) throws FileNotFoundException {
+    @GetMapping("/download/{terminal}/{name}")
+    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable("terminal") String terminal, @PathVariable("name") String name) throws FileNotFoundException {
         // Retrieve file from provided path
-        File file = new File("C:\\Users\\ednwoji\\Documents\\" + name);
+        System.out.println(terminal);
+        System.out.println(name);
+        Estate result = estateRepository.findByterminal(terminal);
+        String branch = result.getBranch();
+        File file = new File(backendPath + branch+"\\"+terminal+"\\Journals\\"+name);
+
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         // Set response headers
